@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ClubApp2</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="users">Users</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Home">Home</string>
+    <string name="Profile">Profile</string>
+    <string name="Users">Users</string>
+</resources>
