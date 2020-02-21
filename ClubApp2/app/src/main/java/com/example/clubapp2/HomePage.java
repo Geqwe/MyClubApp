@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -36,16 +37,16 @@ public class HomePage extends AppCompatActivity {
         ft1.replace(R.id.content, fragment1,"");
         ft1.commit();
 
-        logout = (Button)findViewById(R.id.logout);
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(HomePage.this, MainActivity.class));
-            }
-        });
+//        logout = (Button)findViewById(R.id.logout);
+//
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mAuth.getInstance().signOut();
+//                finish();
+//                startActivity(new Intent(HomePage.this, MainActivity.class));
+//            }
+//        });
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -72,6 +73,13 @@ public class HomePage extends AppCompatActivity {
                     FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
                     ft3.replace(R.id.content, fragment3,"");
                     ft3.commit();
+                    return true;
+                case R.id.nav_chat:
+//                    actionbar.setTitle("Chat");
+                    ChatListFragment fragment4 = new ChatListFragment();
+                    FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
+                    ft4.replace(R.id.content, fragment4,"");
+                    ft4.commit();
                     return true;
             }
             return false;

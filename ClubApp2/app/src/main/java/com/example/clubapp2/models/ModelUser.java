@@ -1,4 +1,4 @@
-package com.example.clubapp2;
+package com.example.clubapp2.models;
 
 public class ModelUser {
 
