@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         mAuth = FirebaseAuth.getInstance(); // auth key
 
@@ -112,23 +119,41 @@ public class MainActivity extends AppCompatActivity {
                     if(task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        String email = user.getEmail();
-                        String uid = user.getUid();
+                        if(task.getResult().getAdditionalUserInfo().isNewUser()) {
+                            String email = user.getEmail();
+                            String uid = user.getUid();
 
-                        HashMap<Object, String> hashMap = new HashMap<>();
-                        hashMap.put("email", email);
-                        hashMap.put("uid", uid);
-                        hashMap.put("name", "");
-                        hashMap.put("phone", "");
-                        hashMap.put("image", "");
+                            HashMap<Object, String> hashMap = new HashMap<>();
+                            hashMap.put("email", email);
+                            hashMap.put("uid", uid);
+                            hashMap.put("name", "");
+                            hashMap.put("phone", "");
+                            hashMap.put("image", "");
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference reference = database.getReference("Users");
 
-                        DatabaseReference reference = database.getReference("Users");
+                            reference.child(uid).setValue(hashMap);
+                            startActivity(new Intent(MainActivity.this, HomePage.class));
+                        }
+                        else {
+                            String email = user.getEmail();
+                            String uid = user.getUid();
 
-                        reference.child(uid).setValue(hashMap);
+                            HashMap<Object, String> hashMap = new HashMap<>();
+                            hashMap.put("email", email);
+                            hashMap.put("uid", uid);
+                            hashMap.put("name", "");
+                            hashMap.put("phone", "");
+                            hashMap.put("image", "");
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                        startActivity(new Intent(MainActivity.this, HomePage.class));
+                            DatabaseReference reference = database.getReference("Users");
+
+                            reference.child(uid).setValue(hashMap);
+                            startActivity(new Intent(MainActivity.this, HomePage.class));
+                        }
+
                     }
                     else {
                         Toast.makeText(MainActivity.this,"Sign in Problem", Toast.LENGTH_LONG).show();
