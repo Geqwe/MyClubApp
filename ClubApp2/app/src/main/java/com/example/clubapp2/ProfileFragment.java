@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +41,8 @@ public class ProfileFragment extends Fragment {
     DatabaseReference dbRef;
 
     ImageView avatarIv;
+    ImageView coverIv;
+    FloatingActionButton fab;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,6 +61,8 @@ public class ProfileFragment extends Fragment {
         dbRef = firebaseDatabase.getReference("Users");
 
         avatarIv= view.findViewById(R.id.avatarIv);
+        coverIv = view.findViewById(R.id.coverIv);
+        fab = view.findViewById(R.id.fab);
 
         Query query = dbRef.orderByChild("email").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
